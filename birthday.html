@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日祝福</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            z-index: 10;
+        }
+        
+        .birthday-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .birthday-person {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        
+        .balloons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 70px;
+            background: #ff4081;
+            border-radius: 50%;
+            bottom: -100px;
+            animation: floatUp 8s linear infinite;
+            box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);
+        }
+        
+        .balloon:before {
+            content: "▲";
+            font-size: 20px;
+            color: #ff4081;
+            display: block;
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            bottom: -18px;
+        }
+        
+        .balloon:after {
+            content: "";
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            height: 100px;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .cake {
+            width: 200px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .candle {
+            width: 15px;
+            height: 40px;
+            background: #fff;
+            margin: 0 auto;
+            position: relative;
+            animation: flicker 0.5s infinite alternate;
+        }
+        
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: #ff9800;
+            border-radius: 50% 50% 20% 20%;
+            margin: 0 auto;
+            position: relative;
+            top: -10px;
+            box-shadow: 0 0 20px #ff9800;
+        }
+        
+        .cake-layer {
+            width: 180px;
+            height: 40px;
+            background: #ffcccc;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+        
+        .cake-layer:nth-child(2) {
+            width: 160px;
+            background: #ff9999;
+        }
+        
+        .cake-layer:nth-child(3) {
+            width: 140px;
+            background: #ff6666;
+        }
+        
+        @keyframes floatUp {
+            to {
+                transform: translateY(-100vh) rotate(20deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background: #f00;
+            top: -20px;
+            animation: confettiFall 5s linear infinite;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .birthday-title {
+                font-size: 2.5rem;
+            }
+            .message {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="balloons" id="balloons"></div>
+    <div class="container">
+        <h1 class="birthday-title">🎉 生日快乐！ 🎉</h1>
+        
+        <div class="message">
+            <p>亲爱的 <span class="birthday-person" id="name">[寿星名字]</span>，</p>
+            <p>在这特别的日子里，祝你生日快乐！🎂</p>
+            <p>愿你的每一天都充满阳光与欢笑，</p>
+            <p>愿你的每一个梦想都能成真！</p>
+            <p>🎁 心想事成，幸福永远！ 🎁</p>
+        </div>
+        
+        <div class="cake">
+            <div class="candle">
+                <div class="flame"></div>
+            </div>
+            <div class="cake-layer"></div>
+            <div class="cake-layer"></div>
+            <div class="cake-layer"></div>
+        </div>
+        
+        <p style="margin-top: 30px; font-size: 1.2rem;">
+            🎈 祝福随着气球飘向你的身边 🎈
+        </p>
+    </div>
+
+    <script>
+        // 创建气球
+        function createBalloons() {
+            const balloonsContainer = document.getElementById('balloons');
+            const colors = ['#ff4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0'];
+            
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                
+                // 随机属性
+                const left = Math.random() * 100;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = 30 + Math.random() * 40;
+                const delay = Math.random() * 5;
+                const duration = 6 + Math.random() * 6;
+                
+                balloon.style.left = left + '%';
+                balloon.style.background = color;
+                balloon.style.width = size + 'px';
+                balloon.style.height = size * 1.4 + 'px';
+                balloon.style.animationDelay = delay + 's';
+                balloon.style.animationDuration = duration + 's';
+                
+                balloonsContainer.appendChild(balloon);
+            }
+        }
+        
+        // 创建彩色纸屑
+        function createConfetti() {
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+            
+            setInterval(() => {
+                for (let i = 0; i < 10; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    const left = Math.random() * 100;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const delay = Math.random() * 5;
+                    const duration = 2 + Math.random() * 3;
+                    
+                    confetti.style.left = left + '%';
+                    confetti.style.background = color;
+                    confetti.style.animationDelay = delay + 's';
+                    confetti.style.animationDuration = duration + 's';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    // 3秒后移除
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }
+            }, 500);
+        }
+        
+        // 修改寿星名字
+        function changeName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name') || '寿星';
+            document.getElementById('name').textContent = name;
+        }
+        
+        // 页面加载时执行
+        window.onload = function() {
+            createBalloons();
+            createConfetti();
+            changeName();
+            
+            // 添加点击特效
+            document.addEventListener('click', function(e) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'absolute';
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                heart.style.fontSize = '25px';
+                heart.style.pointerEvents = 'none';
+                heart.style.animation = 'floatUp 2s linear forwards';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 2000);
+            });
+        };
+    </script>
+</body>
+</html>
