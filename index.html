@@ -298,15 +298,15 @@
             }
         }
         
-        /* 操作提示 */
-        .instructions {
+        /* 操作提示 - 已移除 */
+        /* .instructions {
             font-size: 0.9rem;
             margin-top: 20px;
             color: rgba(255, 255, 255, 0.7);
             background: rgba(0, 0, 0, 0.2);
             padding: 10px 15px;
             border-radius: 10px;
-        }
+        } */
         
         @media (max-width: 768px) {
             .birthday-title {
@@ -368,9 +368,8 @@
             🎈 祝福随着气球飘向你的身边 🎈
         </p>
         
-        <div class="instructions">
-            提示：在URL后添加 ?name=名字 可以自定义寿星名字，例如：?name=小明
-        </div>
+        <!-- 提示已移除 -->
+        
     </div>
 
     <script>
@@ -521,11 +520,11 @@
                 }, 2000);
             });
             
-            
+            // 已移除控制台提示
+        };
+        
         // 当URL改变时也更新名字（适用于单页应用）
         window.addEventListener('popstate', changeName);
     </script>
-</body>
-</html>
 </body>
 </html>
