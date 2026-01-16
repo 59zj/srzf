@@ -521,11 +521,7 @@
                 }, 2000);
             });
             
-            // 添加键盘快捷键提示
-            console.log('提示：在URL后添加 ?name=名字 可以自定义寿星名字');
-            console.log('例如：https://example.com/?name=小明');
-        };
-        
+            
         // 当URL改变时也更新名字（适用于单页应用）
         window.addEventListener('popstate', changeName);
     </script>
